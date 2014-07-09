@@ -5,6 +5,7 @@
 
 #include "ch.h"
 #include "hal.h"
+#include "motion.h"
 
 
 // STRUTTURA pwmcfg
@@ -24,35 +25,15 @@ static PWMConfig pwmcfg = {
 };
 
 
-//  DEFINIZIONE STRUTTURA gpiopin
-typedef struct gpiopin{
-  ioportid_t port;
-  ioportmask_t pin;
-} GPIO_PIN;
-
-//  DEFINIZIONE STRUTTURA Motor
-typedef struct Motor{
-    // pin GPIO a cui e' connesso DCMotor IN1
-    GPIO_PIN IN1;
-    // pin GPIO a cui e' connesso DCMotor IN2
-    GPIO_PIN IN2;
-    // pin GPIO a cui e' connesso DCMotor EN
-    GPIO_PIN EN;
-    //  driver PWM utilizzato con EN
-    PWMDriver *pwm_driver;
-    // canale PWM utilizzato con EN
-    pwmchannel_t pwm_channel;
-} DCMotor;
-
-
 // Get getPwmPercentage
 static int getPwmPercentage(int speedPercent) {
     int p = speedPercent > 100 ? 100 : (speedPercent < 40 ? 0 : speedPercent);
     return  p*100;
 }
 
+
 /****************************************************************************
- *  Funzione Motori
+ *  Funzioni Motori
  ****************************************************************************/
 
 
@@ -66,7 +47,6 @@ void DCMotorConfig(DCMotor *dcmotor) {
     /* start PWM  */
     pwmStart(dcmotor->pwm_driver, &pwmcfg);
 }
-
 
 void DCMotorStop(DCMotor *dcmotor) {
     palClearPad(dcmotor->IN1.port, dcmotor->IN1.pin);
@@ -110,6 +90,25 @@ void DCMotorBackward(DCMotor *dcmotor, int speedPercent) {
                                               )
                      );
 }
+
+void DCMotorTurnL(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent) {
+
+    DCMotorForward(dcmotor1, speedPercent);
+    chThdSleepMilliseconds(1000);
+    DCMotorStop(dcmotor2);
+}
+
+void DCMotorTurnR(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent) {
+
+    DCMotorStop(dcmotor1);
+    DCMotorForward(dcmotor2, speedPercent);
+    chThdSleepMilliseconds(1000);
+}
+
+
+
+
+
 
 
 
