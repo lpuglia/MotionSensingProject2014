@@ -19,12 +19,12 @@
 #include "motion.c"
 
 
-int motor1Pin1 = 1;    // pin 2 on L293D
-int motor1Pin2 = 2;    // pin 7 on L293D
-int enableMotor1 = 0;  // pin 1 on L293D
-int motor2Pin1 = 7;    // pin 15 on L293D
-int motor2Pin2 = 8;    // pin 10 on L293D
-int enableMotor2 = 6;  // pin 9 on L293D
+unsigned int motor1Pin1 = 1;    // pin 2 on L293D
+unsigned int motor1Pin2 = 2;    // pin 7 on L293D
+unsigned int enableMotor1 = 0;  // pin 1 on L293D
+unsigned int motor2Pin1 = 7;    // pin 10 on L293D
+unsigned int motor2Pin2 = 8;    // pin 15 on L293D
+unsigned int enableMotor2 = 6;  // pin 9 on L293D
 
 
 
@@ -69,9 +69,9 @@ int main(void) {
     chThdSleepMilliseconds(2000);
 
 // AVANTI
-    DCMotorForward(&motor1, 60);
-    DCMotorForward(&motor2, 60);
-    chThdSleepMilliseconds(2000);
+    DCMotorForward(&motor1, 90);
+    DCMotorForward(&motor2, 90);
+    chThdSleepMilliseconds(3000);
 
 // FREE
     DCMotorFree(&motor1);
@@ -79,29 +79,43 @@ int main(void) {
     chThdSleepMilliseconds(1000);
 
 // INDIETRO
-    DCMotorBackward(&motor1, 50);
-    DCMotorBackward(&motor2, 50);
+    DCMotorBackward(&motor1, 70);
+    DCMotorBackward(&motor2, 70);
     chThdSleepMilliseconds(2000);
 
-// RUOTA A DESTRA
-    DCMotorStop(&motor1);
-    DCMotorForward(&motor2, 50);
+// FREE
+    DCMotorFree(&motor1);
+    DCMotorFree(&motor2);
     chThdSleepMilliseconds(1000);
-
-// RUOTA A SINISTRA
-    DCMotorForward(&motor1, 50);
-    chThdSleepMilliseconds(1000);
-    DCMotorStop(&motor2);
-
-// GIRA A DESTRA
-    DCMotorBackward(&motor1, 50);
-    DCMotorForward(&motor2, 40);
-    chThdSleepMilliseconds(2000);
 
 // GIRA A SINISTRA
-    DCMotorForward(&motor1, 45);
-    DCMotorBackward(&motor2, 50);
-    chThdSleepMilliseconds(2000);
+    DCMotorTurnL(&motor1, &motor2, 70);
+
+// FREE
+    DCMotorFree(&motor1);
+    DCMotorFree(&motor2);
+    chThdSleepMilliseconds(1000);
+
+// RUOTA A DESTRA
+    DCMotorTurnR(&motor1, &motor2, 70);
+
+// STOP
+    DCMotorStop(&motor1);
+    DCMotorStop(&motor2);
+
+// RUOTA A SINISTRA PER TRE SECONDI
+    DCMotorForward(&motor1, 70);
+    DCMotorBackward(&motor2, 70);
+    chThdSleepMilliseconds(3000);
+
+// STOP
+    DCMotorStop(&motor1);
+    DCMotorStop(&motor2);
+
+// RUOTA A DESTRA PER TRE SECONDI
+    DCMotorBackward(&motor1, 70);
+    DCMotorForward(&motor2, 70);
+    chThdSleepMilliseconds(3000);
 
 // STOP
     DCMotorStop(&motor1);
@@ -109,6 +123,9 @@ int main(void) {
 
     return 0;
 }
+
+
+
 
 
 
