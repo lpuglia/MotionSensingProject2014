@@ -41,9 +41,6 @@ static const char* AT_EASY = "at+easy_txrx\r\n";
 uint8_t buff[MAX_LENGTH]; //buffer di lettura
 
 
-
-
-
 /*
  * Application entry point.
  */
@@ -82,11 +79,12 @@ int main(void) {
 
   /*
    * Segue una read bloccante che attende il messaggio che annuncia
-   * la connessione di un client, da sostiture con un sistema di lettura
+   * la connessione di un client, possibile sostiture con un sistema di lettura
    * asincrono.
    */
-  sdRead(&SD1,  buff, 26);
+  sdRead(&SD1,  buff, 23);
 
+  palClearPad(GPIOE, GPIOE_LED7_GREEN);
   /*
    * Viene attivata la transparent transmission mode, in cui i
    * messaggi vengono inoltrati direttamente a server e client senza
@@ -99,8 +97,11 @@ int main(void) {
   chprintf((BaseSequentialStream *)&SD1, "prova di easy transmission\r\n"); //messaggio per il client TCP
 
 
+  /*
+   * Echo di tutti i caratteri ricevuti
+   */
   while (TRUE) {
-    chThdSleepMilliseconds(5000);
-    chprintf((BaseSequentialStream *)&SD1, "prova di easy transmission\r\n");
+    int input = sdGet(&SD1);
+    chprintf((BaseSequentialStream *)&SD1, "%c", input);
   }
 }
