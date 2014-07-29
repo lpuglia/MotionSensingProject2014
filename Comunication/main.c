@@ -40,7 +40,6 @@ static const char* AT_EASY = "at+easy_txrx\r\n";
 #define MAX_LENGTH  1400 //lunghezza max messaggi trasmessi dal modulo WiFi, si potrebbe ridurre
 uint8_t buff[MAX_LENGTH]; //buffer di lettura
 
-
 /*
  * Application entry point.
  */
@@ -96,12 +95,57 @@ int main(void) {
   sdRead(&SD1,  buff, 4);
   chprintf((BaseSequentialStream *)&SD1, "prova di easy transmission\r\n"); //messaggio per il client TCP
 
+  *buff = 0;
+
+  char *ptr = buff; //i char sono unsigned per default
+  EventListener el;
+  flagsmask_t flags;
+  chEvtRegisterMask((EventSource *)chnGetEventSource(&SD1), &el, EVENT_MASK(1));
 
   /*
-   * Echo di tutti i caratteri ricevuti
+   * Il server attende linee terminate da \r\n
+   * e le rispedisce al client
    */
   while (TRUE) {
-    int input = sdGet(&SD1);
-    chprintf((BaseSequentialStream *)&SD1, "%c", input);
+
+    //echo singolo carattere
+    //int input = sdGet(&SD1);
+    //chprintf((BaseSequentialStream *)&SD1, "%c", input);
+
+    chEvtWaitOneTimeout(EVENT_MASK(1), MS2ST(10));
+    flags = chEvtGetAndClearFlags(&el);
+    if (flags & CHN_INPUT_AVAILABLE)
+    {
+      int charbuf;
+      do
+      {
+        charbuf = chnGetTimeout(&SD1, TIME_IMMEDIATE);
+        if ( charbuf != Q_TIMEOUT )
+        {
+          if (charbuf == '\r')
+          {
+            if ((charbuf = sdGet(&SD1)) == '\n')
+            {
+              *ptr = 0;
+              chprintf((BaseSequentialStream*)&SD1, "%s\r\n", buff);
+              *buff=0;
+              ptr = buff;
+            }
+            else
+            {
+              *ptr++ = '\r';
+              *ptr++ = charbuf;
+            }
+          }
+          else
+          {
+            *ptr++ = charbuf;
+          }
+        }
+      }
+      while (charbuf != Q_TIMEOUT);
+    }
+
+
   }
 }
