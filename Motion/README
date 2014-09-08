@@ -1,0 +1,56 @@
+The DCMotor contains the following informations:
+
+
+        typedef struct DCMotor_t {
+                // The GPIO pin on which the DCMotor IN1 is connected
+                GPIO_PIN IN1;
+                // The GPIO pin on which the DCMotor IN2 is connected
+                GPIO_PIN IN2;
+                // The GPIO pin on which the DCMotor EN is connected
+                GPIO_PIN EN;
+                // The PWM driver to use with EN
+                PWMDriver *pwm_driver;
+                // The PWM channel to use with EN
+                pwmchannel_t pwm_channel;
+        } DCMotor;
+
+You should know that GPIO_PIN is declared as following :
+
+        typedef struct GPIO_PIN_t{
+                ioportid_t port;
+                ioportmask_t pin;
+        } GPIO_PIN;
+
+This instance will be passed to every function which controlls the dcmotor.
+
+****************************************************************************
+ *  Funzioni Motori
+ ****************************************************************************/
+
+ //init
+ void DCMotorConfig(DCMotor *dcmotor): Initializes dc motor structure to setting gpio port and pwm
+ 
+ //general commands 
+ void DCMotorForward(DCMotor *dcmotor, int speedPercent):
+                                      run to forward the motor "dcmotor" at "speedPercent" velocity
+ 
+ void DCMotorBackward(DCMotor *dcmotor, int speedPercent): 
+                                      run to backward the motor "dcmotor" at "speedPercent" velocity
+ 
+ void DCMotorStop(DCMotor *dcmotor): brakes the motor "dcmotor"
+ 
+ void DCMotorFree(DCMotor *dcmotor): slows to stop the motor "dcmotor"
+ 
+ //bicycle commands
+ void DCMotorTurnR(DCMotor *dcmotorSx, DCMotor *dcmotorDx, int speedPercent): 
+                                      turn to right the vehicle(dcmotorSx + dcmotorDx) at "speedPercent" velocity
+                                      
+ void DCMotorTurnL(DCMotor *dcmotorSx, DCMotor *dcmotorDx, int speedPercent): 
+                                      turn to left the vehicle(dcmotorSx + dcmotorDx) at "speedPercent" velocity
+                                      
+ void DCMotorSplitL(DCMotor *dcmotorSx, DCMotor *dcmotorDx, int degree): 
+                                      rotate at place to left the vehicle(dcmotorSx + dcmotorDx) of "degree" degrees
+                                      
+ void DCMotorSplitR(DCMotor *dcmotorSx, DCMotor *dcmotorDx, int degree): 
+                                      rotate at place to right the vehicle(dcmotorSx + dcmotorDx) of "degree" degrees
+  
