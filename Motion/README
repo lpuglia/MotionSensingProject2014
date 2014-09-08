@@ -1,6 +1,5 @@
 The DCMotor contains the following informations:
 
-
         typedef struct DCMotor_t {
                 // The GPIO pin on which the DCMotor IN1 is connected
                 GPIO_PIN IN1;
@@ -24,7 +23,7 @@ You should know that GPIO_PIN is declared as following :
 This instance will be passed to every function which controlls the dcmotor.
 
 ****************************************************************************
- *  Funzioni Motori
+ *  Motor Functions
  ****************************************************************************/
 
  //init
