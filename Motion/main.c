@@ -103,23 +103,13 @@ int main(void) {
     DCMotorStop(&motor1);
     DCMotorStop(&motor2);
 
-// RUOTA A SINISTRA PER TRE SECONDI
-    DCMotorForward(&motor1, 70);
-    DCMotorBackward(&motor2, 70);
-    chThdSleepMilliseconds(3000);
+// RUOTA DI 90 GRADI  
+    DCMotorSplitL(&motor1, &motor2, 90);
 
-// STOP
-    DCMotorStop(&motor1);
-    DCMotorStop(&motor2);
-
-// RUOTA A DESTRA PER TRE SECONDI
-    DCMotorBackward(&motor1, 70);
-    DCMotorForward(&motor2, 70);
-    chThdSleepMilliseconds(3000);
-
-// STOP
-    DCMotorStop(&motor1);
-    DCMotorStop(&motor2);
+// FREE
+    DCMotorFree(&motor1);
+    DCMotorFree(&motor2);
+    chThdSleepMilliseconds(1000);
 
     return 0;
 }
