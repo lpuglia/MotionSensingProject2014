@@ -34,17 +34,18 @@ typedef struct Motor_t{
  ****************************************************************************/
 
  //init
- void DCMotorConfig(DCMotor *dcmotor);
+ void DCMotorConfig(DCMotor *);
 
- //comandi
- void DCMotorForward(DCMotor *dcmotor, int speedPercent);
- void DCMotorBackward(DCMotor *dcmotor, int speedPercent);
- void DCMotorStop(DCMotor *dcmotor);
- void DCMotorFree(DCMotor *dcmotor);
- void DCMotorTurnR(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent);
- void DCMotorTurnL(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent);
- void DCMotorSplitL(DCMotor *dcmotor1, DCMotor *dcmotor2, int degree);
- void DCMotorSplitR(DCMotor *dcmotor1, DCMotor *dcmotor2, int degree);
+ //comandi generici
+ void DCMotorForward(DCMotor *, int );
+ void DCMotorBackward(DCMotor *, int );
+ void DCMotorStop(DCMotor *);
+ void DCMotorFree(DCMotor *);
+ //comandi per biciclo
+ void DCMotorTurnR(DCMotor *, DCMotor *, int );
+ void DCMotorTurnL(DCMotor *, DCMotor *, int );
+ void DCMotorSplitL(DCMotor *, DCMotor *, int );
+ void DCMotorSplitR(DCMotor *, DCMotor *, int );
 
 
 #endif /* MOTION_H_ */
