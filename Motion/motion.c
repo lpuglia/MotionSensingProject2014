@@ -95,15 +95,31 @@ void DCMotorTurnL(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent) {
 
     DCMotorForward(dcmotor1, speedPercent);
     chThdSleepMilliseconds(1000);
-    DCMotorStop(dcmotor2);
+    DCMotorForward(dcmotor2, speedPercent-10);
+
 }
 
 void DCMotorTurnR(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent) {
 
-    DCMotorStop(dcmotor1);
+    DCMotorForward(dcmotor1, speedPercent-10);
     DCMotorForward(dcmotor2, speedPercent);
     chThdSleepMilliseconds(1000);
 }
+
+void DCMotorSplitL(DCMotor *dcmotor1, DCMotor *dcmotor2, int degree) {
+
+    DCMotorForward(dcmotor1, 100);
+    DCMotorBackward(dcmotor2, 100);
+    chThdSleepMilliseconds((1200*degree)/90);
+}
+
+void DCMotorSplitR(DCMotor *dcmotor1, DCMotor *dcmotor2, int degree) {
+
+    DCMotorBackward(dcmotor1, 100);
+    DCMotorForward(dcmotor2, 100);
+    chThdSleepMilliseconds((1200*degree)/90);
+}
+
 
 
 
