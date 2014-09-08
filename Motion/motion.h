@@ -43,6 +43,8 @@ typedef struct Motor_t{
  void DCMotorFree(DCMotor *dcmotor);
  void DCMotorTurnR(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent);
  void DCMotorTurnL(DCMotor *dcmotor1, DCMotor *dcmotor2, int speedPercent);
+ void DCMotorSplitL(DCMotor *dcmotor1, DCMotor *dcmotor2, int degree);
+ void DCMotorSplitR(DCMotor *dcmotor1, DCMotor *dcmotor2, int degree);
 
 
 #endif /* MOTION_H_ */
