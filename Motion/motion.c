@@ -15,10 +15,10 @@ static PWMConfig pwmcfg = {
    NULL,    // no callback
    {
     // PWM channels array
-      {PWM_OUTPUT_ACTIVE_HIGH, NULL},   // Channel 0
-      {PWM_OUTPUT_ACTIVE_HIGH, NULL},   // Channel 1
-      {PWM_OUTPUT_ACTIVE_HIGH, NULL},   // Channel 2
-      {PWM_OUTPUT_ACTIVE_HIGH, NULL}    // Channel 3
+      {PWM_OUTPUT_DISABLED, NULL},   // Channel 0
+      {PWM_OUTPUT_DISABLED, NULL},   // Channel 1
+      {PWM_OUTPUT_DISABLED, NULL},   // Channel 2
+      {PWM_OUTPUT_DISABLED, NULL}    // Channel 3
    },
    0,
    0
@@ -38,6 +38,10 @@ static int getPwmPercentage(int speedPercent) {
 
 
 void DCMotorConfig(DCMotor *dcmotor) {
+
+   // enable pwm channel
+   PWMChannelConfig chcfg = {PWM_OUTPUT_ACTIVE_HIGH, NULL};
+	pwm_cfg.channels[dcmotor->pwm_channel] = chcfg;
 
     /* configurazione PAL */
     palSetPadMode(dcmotor->IN1.port, dcmotor->IN1.pin, PAL_MODE_OUTPUT_PUSHPULL);
