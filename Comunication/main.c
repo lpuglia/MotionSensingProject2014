@@ -26,6 +26,12 @@ static const char* AT_IPDHCP = "at+ipdhcp=1\r\n";
 static const char* AT_AP = "at+ap=MotionSensing2014,0\r\n";
 
 /*
+ * Comandi per memorizzare la configurazione in modo permanente
+ */
+static const char* AT_STORECONFIG = "at+storeconfig\r\n";
+static const char* AT_STOREENABLE = "at+storeenable=1\r\n";
+
+/*
  * Parametri configurazione TCP Server
  */
 static const char* AT_LTCP = "at+ltcp=25000\r\n";
@@ -74,6 +80,10 @@ int main(void) {
   sdRead(&SD1,  buff, 4);
   chprintf((BaseSequentialStream *)&SD1, "%s", AT_LTCP);
   sdRead(&SD1,  buff, 5);
+  chprintf((BaseSequentialStream *)&SD1, "%s", AT_STORECONFIG);
+  sdRead(&SD1,  buff, 4);
+  chprintf((BaseSequentialStream *)&SD1, "%s", AT_STOREENABLE);
+  sdRead(&SD1,  buff, 4);
   palSetPad(GPIOE, GPIOE_LED7_GREEN); //da ora e' possibile connettere un client
 
   /*

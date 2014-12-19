@@ -1,7 +1,12 @@
 Attualmente il codice permette di configurare il modulo WiFi RAK410
-come access point e di accedere alla rete MotionSensing2014.
+come access point con ip 192.168.100.1 e di accedere alla rete MotionSensing2014.
 Viene creato un server TCP in ascolto alla porta 25000, al
 quale e' possibile connettere un client.
 Una volta stabilita una connessione il modulo entra in una
 modalita' di trasmissione trasparente, in cui si occupa 
 semplicemente di inoltrare i messaggi scambiati tra server e client TCP.
+La configurazione viene memorizzata in modo permamente nella memoria flash 
+del modulo WiFi, pertanto è possibile eseguire questo codice una tantum, 
+e a partire dall'avvio successivo il modulo configurerà automaticamente
+il server TCP in ascolto, e sarà possibile connettere un client TCP 
+e scambiare messaggi tra client e server tramite il SerialDriver SD1.
