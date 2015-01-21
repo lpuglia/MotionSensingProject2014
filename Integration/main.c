@@ -106,7 +106,7 @@ int main(void) {
     if (flags & CHN_INPUT_AVAILABLE)
     {
 
-      char* substr;
+      char* stringa;
       do
       {
         charbuf = chnGetTimeout(&SD1, TIME_IMMEDIATE);
@@ -134,9 +134,13 @@ int main(void) {
                               DCMotorTurnL(&motor1, &motor2, vel);
                               break;
               case 'V': //VELOCITY
-							  //NON FUNZIONA...prendi anche \r\n e tutto il resto del buffer
-                              strncpy(substr, buff+9, strlen(buff)-9);
-                              vel=atoi(substr);
+                              sscanf( buff, "%[^=]=%d", stringa, &vel);
+                              break;
+              case 'X': //SPLITR
+                              DCMotorSplitR(&motor1, &motor2, 90);
+                              break;
+              case 'Y': //SPLITL
+                              DCMotorSplitL(&motor1, &motor2, 90);
                               break;
               default:
                               DCMotorStop(&motor1);
