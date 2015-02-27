@@ -1,2 +1,2 @@
 L'applicazione android creata permette di connettersi su una porta TCP, dato indirizzo ip e numero di porta.
-Sono state implementate le quattro operazioni principali: UP, DOWN, LEFT e RIGHT per comandare il movimento del Robot, e la possibilit‡ di cambiare la velocit‡ di movimento.
+Sono state implementate le operazioni principali: UP, DOWN, LEFT, RIGHT, ROTATE LEFT e ROTATE RIGHT per comandare il movimento del Robot, e la possibilit√† di cambiare la velocit√† di movimento.
